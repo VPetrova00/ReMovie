@@ -4,8 +4,9 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from .serializers import UserSerializer, MovieSerializer, GenreSerializer
-from .models import User, Movie, Genre
+from .serializers import UserSerializer, MovieSerializer, GenreSerializer, SearchHistorySerializer, \
+    FavouriteMoviesSerializer, RatedMoviesSerializer
+from .models import User, Movie, Genre, SearchHistory, FavouriteMovies, RatedMovies
 
 
 class UsersViewSet(ModelViewSet):
@@ -47,3 +48,18 @@ class MoviesViewSet(ModelViewSet):
         for movie in movies:
             movies_responses.append(MovieSerializer(movie).data)
         return Response(movies_responses, status=status.HTTP_200_OK)
+
+
+class SearchHistoryViewSet(ModelViewSet):
+    serializer_class = SearchHistorySerializer
+    queryset = SearchHistory.objects.all().order_by('user')
+
+
+class FavouriteMoviesViewSet(ModelViewSet):
+    serializer_class = FavouriteMoviesSerializer
+    queryset = FavouriteMovies.objects.all().order_by('user')
+
+
+class RatedMoviesViewSet(ModelViewSet):
+    serializer_class = RatedMoviesSerializer
+    queryset = RatedMovies.objects.all().order_by('user')
