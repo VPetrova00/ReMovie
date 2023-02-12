@@ -1,5 +1,10 @@
 from django.urls import include, path
 from rest_framework import routers
+from rest_framework_simplejwt.views import TokenRefreshView
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 from . import views
 
 router = routers.DefaultRouter()
@@ -12,5 +17,7 @@ router.register(r'rated_movies', views.RatedMoviesViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('backend-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path('backend-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]

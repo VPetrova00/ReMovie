@@ -5,7 +5,13 @@ from .models import User, Movie, Genre, SearchHistory, FavouriteMovies, RatedMov
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('user_id', 'username', 'email', 'password')
+        fields = ['id', 'username', 'email', 'password']
+
+    def create(self, validated_data):
+        user = User.objects.create(username=validated_data['username'], email=validated_data['email'])
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
 
 
 class GenreSerializer(serializers.ModelSerializer):

@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, get_list_or_404
 from rest_framework import status
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
@@ -26,7 +27,8 @@ class GenreViewSet(ModelViewSet):
 
 class MoviesViewSet(ModelViewSet):
     serializer_class = MovieSerializer
-    queryset = Movie.objects.all().order_by('movie_rating')
+    queryset = Movie.objects.all().order_by('movie_release_date')
+    permission_classes = [IsAuthenticated]
 
     @action(detail=False, methods=['get'], url_path='get_movie_by_title/(?P<movie_title>[ \w]+)')
     def get_movie_by_title(self, request, movie_title):
@@ -53,13 +55,16 @@ class MoviesViewSet(ModelViewSet):
 class SearchHistoryViewSet(ModelViewSet):
     serializer_class = SearchHistorySerializer
     queryset = SearchHistory.objects.all().order_by('user')
+    permission_classes = [IsAuthenticated]
 
 
 class FavouriteMoviesViewSet(ModelViewSet):
     serializer_class = FavouriteMoviesSerializer
     queryset = FavouriteMovies.objects.all().order_by('user')
+    permission_classes = [IsAuthenticated]
 
 
 class RatedMoviesViewSet(ModelViewSet):
     serializer_class = RatedMoviesSerializer
     queryset = RatedMovies.objects.all().order_by('user')
+    permission_classes = [IsAuthenticated]
