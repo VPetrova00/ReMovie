@@ -1,0 +1,28 @@
+<div class="tab-container">
+  <clr-tabs>
+    <clr-tab>
+      <button clrTabLink id="link1">Search history</button>
+      <clr-tab-content id="content1" *clrIfActive>
+        <div class="container">
+          <app-show-movies></app-show-movies>
+        </div>
+      </clr-tab-content>
+    </clr-tab>
+    <clr-tab>
+      <button clrTabLink>Favourite movies</button>
+      <clr-tab-content *clrIfActive="true">
+        <div class="container">
+          <app-show-movies></app-show-movies>
+        </div>
+      </clr-tab-content>
+    </clr-tab>
+    <clr-tab>
+      <button clrTabLink>Rated movies</button>
+      <clr-tab-content *clrIfActive="true">
+        <div class="container">
+          <app-show-movies></app-show-movies>
+        </div>
+      </clr-tab-content>
+    </clr-tab>
+  </clr-tabs>
+</div>
