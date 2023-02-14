@@ -1,26 +1,22 @@
 <clr-datagrid>
   <clr-dg-column>Title</clr-dg-column>
-  <clr-dg-column>Summary</clr-dg-column>
-  <clr-dg-column>Genres</clr-dg-column>
   <clr-dg-column>Rating</clr-dg-column>
   <clr-dg-column>Release date</clr-dg-column>
 
-  <clr-dg-row>
-    <clr-dg-cell>1</clr-dg-cell>
-    <clr-dg-cell>2</clr-dg-cell>
-    <clr-dg-cell>3</clr-dg-cell>
-    <clr-dg-cell>4</clr-dg-cell>
-    <clr-dg-cell>5</clr-dg-cell>
+  <clr-dg-row *ngFor="let movie of movies">
+    <clr-dg-cell>{{movie.movie_title}}</clr-dg-cell>
+    <clr-dg-cell>{{movie.movie_rating}}</clr-dg-cell>
+    <clr-dg-cell>{{movie.movie_release_date}}</clr-dg-cell>
   </clr-dg-row>
 
-  <ng-template [(clrIfDetail)]="detailState" let-detail>
-    <clr-dg-detail>
-      <clr-dg-detail-header>{{detail.name}}</clr-dg-detail-header>
-      <clr-dg-detail-body>
-        <app-show-movie></app-show-movie>
-      </clr-dg-detail-body>
-    </clr-dg-detail>
-  </ng-template>
+<!--  <ng-template [(clrIfDetail)]="detailState" let-detail>-->
+<!--    <clr-dg-detail>-->
+<!--      <clr-dg-detail-header>{{detail.name}}</clr-dg-detail-header>-->
+<!--      <clr-dg-detail-body>-->
+<!--        <app-show-movie></app-show-movie>-->
+<!--      </clr-dg-detail-body>-->
+<!--    </clr-dg-detail>-->
+<!--  </ng-template>-->
 
   <clr-dg-footer>
     <clr-dg-pagination #pagination [clrDgPageSize]="10">
