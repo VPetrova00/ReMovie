@@ -54,8 +54,16 @@ class MoviesViewSet(ModelViewSet):
 
 class SearchHistoryViewSet(ModelViewSet):
     serializer_class = SearchHistorySerializer
-    queryset = SearchHistory.objects.all().order_by('user')
+    queryset = SearchHistory.objects.all()
     permission_classes = [IsAuthenticated]
+
+    @action(detail=False, methods=['get'], url_path='get_history_by_user_id/(?P<user_id>\d+)')
+    def get_history_by_user_id(self, request, user_id):
+        history_entries = get_list_or_404(SearchHistory, user_id=user_id)
+        history_responses = []
+        for entry in history_entries:
+            history_responses.append(SearchHistorySerializer(entry).data)
+        return Response(history_responses, status=status.HTTP_200_OK)
 
 
 class FavouriteMoviesViewSet(ModelViewSet):
@@ -63,8 +71,24 @@ class FavouriteMoviesViewSet(ModelViewSet):
     queryset = FavouriteMovies.objects.all().order_by('user')
     permission_classes = [IsAuthenticated]
 
+    @action(detail=False, methods=['get'], url_path='get_favs_by_user_id/(?P<user_id>\d+)')
+    def get_favs_by_user_id(self, request, user_id):
+        fav_entries = get_list_or_404(FavouriteMovies, user_id=user_id)
+        fav_responses = []
+        for entry in fav_entries:
+            fav_responses.append(FavouriteMoviesSerializer(entry).data)
+        return Response(fav_responses, status=status.HTTP_200_OK)
+
 
 class RatedMoviesViewSet(ModelViewSet):
     serializer_class = RatedMoviesSerializer
     queryset = RatedMovies.objects.all().order_by('user')
     permission_classes = [IsAuthenticated]
+
+    @action(detail=False, methods=['get'], url_path='get_rated_by_user_id/(?P<user_id>\d+)')
+    def get_rated_by_user_id(self, request, user_id):
+        rated_entries = get_list_or_404(RatedMovies, user_id=user_id)
+        rated_responses = []
+        for entry in rated_entries:
+            rated_responses.append(RatedMoviesSerializer(entry).data)
+        return Response(rated_responses, status=status.HTTP_200_OK)
