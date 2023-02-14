@@ -1,3 +1,5 @@
-<div class="container">
-  <app-show-movies></app-show-movies>
+<div class="container" *ngIf="getMovies">
+  <app-show-movies
+  [movies]="movies"
+  ></app-show-movies>
 </div>

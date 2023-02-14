@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {MovieInterface} from "../../interfaces/movie-interface";
 
 @Component({
   selector: 'app-show-movies',
@@ -6,13 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./show-movies.component.css']
 })
 export class ShowMoviesComponent implements OnInit {
-  detailState: boolean | undefined;
+  @Input() movies!: MovieInterface[];
 
   constructor() {
 
   }
 
   ngOnInit(): void {
-    this.detailState = true;
   }
 }
