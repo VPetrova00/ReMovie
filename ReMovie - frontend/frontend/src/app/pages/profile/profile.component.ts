@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ProfileService} from "../../services/profile.service";
 import {UserService} from "../../services/user.service";
 import {ProfileInterface} from "../../interfaces/profile-interface";
 import {ProfileRatingInterface} from "../../interfaces/profile-rating-interface";
 import {MovieService} from "../../services/movie.service";
 import {MovieInterface} from "../../interfaces/movie-interface";
+import {RatingInterface} from "../../interfaces/rating-interface";
 
 @Component({
   selector: 'profile',
@@ -15,12 +16,14 @@ export class ProfileComponent implements OnInit {
   userId!: number;
   history!: ProfileInterface;
   favs!: ProfileInterface;
-  rated!: ProfileRatingInterface;
+  rated!: ProfileRatingInterface[];
   historyMovies: MovieInterface[] = [];
   favsMovies: MovieInterface[] = [];
   ratedMovies: MovieInterface[] = [];
+  ratings: RatingInterface[] = [];
 
-  constructor(private service: ProfileService, private userService: UserService, private movieService: MovieService) { }
+  constructor(private service: ProfileService, private userService: UserService, private movieService: MovieService) {
+  }
 
   ngOnInit(): void {
     this.userService.getUserByUsername(sessionStorage['username']).subscribe((user) => {
@@ -72,14 +75,21 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  addToRatedMovies(rated: ProfileRatingInterface) {
-    console.log(rated)
-    for (let movieId of rated.movies) {
-      let movie!: MovieInterface;
-      this.movieService.getMovieById(movieId).subscribe((data) => {
-        movie = data;
-        this.ratedMovies.push(movie);
-      });
+  addToRatedMovies(rated: ProfileRatingInterface[]) {
+    for (let i = 0; i < rated.length; i++) {
+      let current = rated[i];
+      for (let movieId of current.movies) {
+        let movie!: MovieInterface;
+        this.movieService.getMovieById(movieId).subscribe((data) => {
+          movie = data;
+          this.ratedMovies.push(movie);
+          let ratingObject: RatingInterface = {
+            id: movieId,
+            rating: current.rating
+          };
+          this.ratings.push(ratingObject);
+        });
+      }
     }
   }
 }

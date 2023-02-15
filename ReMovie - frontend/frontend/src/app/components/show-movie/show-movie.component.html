@@ -1,1 +1,22 @@
-<p>show-movie works!</p>
+<table class="table table-vertical table-noborder table-compact">
+  <tbody>
+  <tr>
+    <th>Summary</th>
+    <td>
+      <p>{{movie?.movie_summary}}</p>
+    </td>
+  </tr>
+  <tr>
+    <th>Genres</th>
+    <th *ngFor="let genre of genres">
+      <p>{{genre.genre_name}}</p>
+    </th>
+  </tr>
+  <tr *ngIf="isFromRatingTable">
+    <th>My rating</th>
+    <td>
+      <p>{{getRating(movie?.movie_id)}}</p>
+    </td>
+  </tr>
+  </tbody>
+</table>

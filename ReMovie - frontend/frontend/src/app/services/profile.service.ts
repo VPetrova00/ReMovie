@@ -38,6 +38,6 @@ export class ProfileService {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${sessionStorage.getItem('access-token')}`
     })
-    return this.http.get<ProfileRatingInterface>(getRatedByUserIdUrl, { headers: headers });
+    return this.http.get<ProfileRatingInterface[]>(getRatedByUserIdUrl, { headers: headers });
   }
 }
