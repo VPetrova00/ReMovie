@@ -59,11 +59,8 @@ class SearchHistoryViewSet(ModelViewSet):
 
     @action(detail=False, methods=['get'], url_path='get_history_by_user_id/(?P<user_id>\d+)')
     def get_history_by_user_id(self, request, user_id):
-        history_entries = get_list_or_404(SearchHistory, user_id=user_id)
-        history_responses = []
-        for entry in history_entries:
-            history_responses.append(SearchHistorySerializer(entry).data)
-        return Response(history_responses, status=status.HTTP_200_OK)
+        history_entries = get_object_or_404(SearchHistory, user_id=user_id)
+        return Response(SearchHistorySerializer(history_entries).data, status=status.HTTP_200_OK)
 
 
 class FavouriteMoviesViewSet(ModelViewSet):
@@ -73,11 +70,8 @@ class FavouriteMoviesViewSet(ModelViewSet):
 
     @action(detail=False, methods=['get'], url_path='get_favs_by_user_id/(?P<user_id>\d+)')
     def get_favs_by_user_id(self, request, user_id):
-        fav_entries = get_list_or_404(FavouriteMovies, user_id=user_id)
-        fav_responses = []
-        for entry in fav_entries:
-            fav_responses.append(FavouriteMoviesSerializer(entry).data)
-        return Response(fav_responses, status=status.HTTP_200_OK)
+        fav_entries = get_object_or_404(FavouriteMovies, user_id=user_id)
+        return Response(FavouriteMoviesSerializer(fav_entries).data, status=status.HTTP_200_OK)
 
 
 class RatedMoviesViewSet(ModelViewSet):
@@ -87,8 +81,5 @@ class RatedMoviesViewSet(ModelViewSet):
 
     @action(detail=False, methods=['get'], url_path='get_rated_by_user_id/(?P<user_id>\d+)')
     def get_rated_by_user_id(self, request, user_id):
-        rated_entries = get_list_or_404(RatedMovies, user_id=user_id)
-        rated_responses = []
-        for entry in rated_entries:
-            rated_responses.append(RatedMoviesSerializer(entry).data)
-        return Response(rated_responses, status=status.HTTP_200_OK)
+        rated_entries = get_object_or_404(RatedMovies, user_id=user_id)
+        return Response(RatedMoviesSerializer(rated_entries).data, status=status.HTTP_200_OK)
