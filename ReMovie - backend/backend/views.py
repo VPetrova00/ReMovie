@@ -81,5 +81,8 @@ class RatedMoviesViewSet(ModelViewSet):
 
     @action(detail=False, methods=['get'], url_path='get_rated_by_user_id/(?P<user_id>\d+)')
     def get_rated_by_user_id(self, request, user_id):
-        rated_entries = get_object_or_404(RatedMovies, user_id=user_id)
-        return Response(RatedMoviesSerializer(rated_entries).data, status=status.HTTP_200_OK)
+        rated_entries = get_list_or_404(RatedMovies, user_id=user_id)
+        arr = []
+        for entry in rated_entries:
+            arr.append(RatedMoviesSerializer(entry).data)
+        return Response(arr, status=status.HTTP_200_OK)
