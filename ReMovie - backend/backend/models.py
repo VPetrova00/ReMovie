@@ -51,8 +51,8 @@ class Movie(models.Model):
     movie_id = models.AutoField(primary_key=True)
     movie_title = models.CharField(max_length=50)
     movie_summary = models.CharField(max_length=200)
-    movie_rating = models.IntegerField()
-    movie_genres = models.ManyToManyField(Genre)
+    movie_rating = models.FloatField()
+    movie_genres = models.ManyToManyField(Genre, related_name="movies")
     movie_release_date = models.DateField()
 
 
