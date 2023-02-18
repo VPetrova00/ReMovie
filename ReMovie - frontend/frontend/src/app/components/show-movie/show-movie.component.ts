@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, DoCheck, Input, OnInit} from '@angular/core';
 import {MovieInterface} from "../../interfaces/movie-interface";
 import {MovieService} from "../../services/movie.service";
 import {GenreInterface} from "../../interfaces/genre-interface";
@@ -20,14 +20,7 @@ export class ShowMovieComponent implements OnInit {
   constructor(private service: MovieService, private genreService: GenreService) { }
 
   ngOnInit(): void {
-    this.service.getMovieById(this.movieId).subscribe((data) => {
-      this.movie = data;
-      for (let genre of data.movie_genres) {
-        this.genreService.getGenreById(genre).subscribe((data) => {
-          this.genres.push(data);
-        });
-      }
-    });
+    this.getData();
   }
 
   getRating(movieId: number | undefined) {
@@ -38,5 +31,16 @@ export class ShowMovieComponent implements OnInit {
     }
 
     return -1;
+  }
+
+  getData() {
+    this.service.getMovieById(this.movieId).subscribe((data) => {
+      this.movie = data;
+      for (let genre of data.movie_genres) {
+        this.genreService.getGenreById(genre).subscribe((data) => {
+          this.genres.push(data);
+        });
+      }
+    });
   }
 }

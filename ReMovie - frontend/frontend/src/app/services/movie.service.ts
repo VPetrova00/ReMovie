@@ -11,7 +11,7 @@ export class MovieService {
 
   constructor(private http: HttpClient) {}
 
-  getMovieById(movieId: number): Observable<MovieInterface> {
+  getMovieById(movieId: number | undefined): Observable<MovieInterface> {
     let getMovieByIdUrl = this.getAllMoviesUrl + movieId;
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${sessionStorage.getItem('access-token')}`

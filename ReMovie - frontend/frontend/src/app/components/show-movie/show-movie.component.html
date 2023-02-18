@@ -3,19 +3,19 @@
   <tr>
     <th>Summary</th>
     <td>
-      <p>{{movie?.movie_summary}}</p>
+      {{movie?.movie_summary}}
     </td>
   </tr>
   <tr>
     <th>Genres</th>
-    <th *ngFor="let genre of genres">
-      <p>{{genre.genre_name}}</p>
+    <th *ngFor="let genre of genres" class="genres">
+      {{genre.genre_name}}
     </th>
   </tr>
   <tr *ngIf="isFromRatingTable">
     <th>My rating</th>
     <td>
-      <p>{{getRating(movieId)}}</p>
+      {{getRating(movieId)}}
     </td>
   </tr>
   </tbody>

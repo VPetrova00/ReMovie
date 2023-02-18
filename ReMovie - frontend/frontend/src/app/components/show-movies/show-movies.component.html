@@ -14,15 +14,16 @@
       <clr-dg-detail-header>{{detail.movie_title}}</clr-dg-detail-header>
       <clr-dg-detail-body>
         <app-show-movie
-        [movieId]="detail.movie_id"
-        [isFromRatingTable]="isFromRatingTable"
-        [ratings]="ratings"
+          [movieId]="detail.movie_id"
+          [isFromRatingTable]="isFromRatingTable"
+          [ratings]="ratings"
         ></app-show-movie>
+        <div class="button-container">
+          <button class="btn btn-primary">Add to favourites</button>
+          <button class="btn btn-primary">Rate</button>
+          <button class="btn btn-outline" (click)="showRelatedMovies(movie?.movie_id)">Show related movies</button>
+        </div>
       </clr-dg-detail-body>
-      <div class="button-container">
-        <button>Add to favourites</button>
-        <button>Rate</button>
-      </div>
     </clr-dg-detail>
   </ng-template>
 
@@ -37,3 +38,25 @@
   </clr-dg-footer>
 </clr-datagrid>
 
+<clr-modal [(clrModalOpen)]="isModalOpen" [clrModalSize]="'lg'" [clrModalClosable]="false"
+           [clrModalStaticBackdrop]="true">
+  <h3 class="modal-title">Related movies ({{movie?.movie_title}}): </h3>
+  <div class="modal-body">
+    <div *ngIf="results.length == 0">
+      <clr-spinner clrInline>Getting information</clr-spinner>
+    </div>
+    <div *ngIf="results.length > 0">
+      <div *ngFor="let res of results">
+        <h2>
+          {{res.movie_title}}
+        </h2>
+        <app-show-movie
+          [movieId]="res.movie_id"
+        ></app-show-movie>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="close()">Ok</button>
+  </div>
+</clr-modal>
