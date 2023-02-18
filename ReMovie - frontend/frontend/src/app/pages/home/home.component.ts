@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
   getMovies() {
     const moviesObservable = this.service.getTop15();
     moviesObservable.subscribe((movies: MovieInterface[]) => {
-      this.movies = movies;
+      this.movies = movies.slice(0, 15);
     });
   }
 }
