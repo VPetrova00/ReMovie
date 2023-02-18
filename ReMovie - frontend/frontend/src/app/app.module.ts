@@ -14,7 +14,7 @@ import {AppRoutingModule} from "./app-routing.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HomeComponent} from "./pages/home/home.component";
 import {ProfileComponent} from "./pages/profile/profile.component";
-import {RelatedComponent} from "./pages/related/related.component";
+import {SearchComponent} from "./pages/search/search.component";
 import {AllComponent} from "./pages/all-movies/all.component";
 import {ShowMovieComponent} from './components/show-movie/show-movie.component';
 
@@ -26,7 +26,7 @@ import {ShowMovieComponent} from './components/show-movie/show-movie.component';
     ShowMoviesComponent,
     HomeComponent,
     ProfileComponent,
-    RelatedComponent,
+    SearchComponent,
     AllComponent,
     ShowMovieComponent,
     MenuComponent,

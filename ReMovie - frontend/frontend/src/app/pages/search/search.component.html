@@ -1,0 +1,19 @@
+<div class="container">
+  <form clrForm>
+    <clr-select-container>
+      <label>Select how you want to search movie (by movie title, release date or rating): </label>
+      <select clrSelect name="options" [(ngModel)]="options">
+        <option value="title">By title</option>
+        <option value="releaseDate">By release date</option>
+        <option value="Rating">By rating</option>
+      </select>
+    </clr-select-container>
+    <clr-input-container>
+      <label>Type here... </label>
+      <input clrInput type="text" [(ngModel)]="movieSearchParam" name="example" />
+    </clr-input-container>
+    <button class="btn btn-primary" type="submit" (click)="searchMovie()">Search movie</button>
+  </form>
+  <app-show-movies
+  ></app-show-movies>
+</div>
