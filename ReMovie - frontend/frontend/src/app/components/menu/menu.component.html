@@ -3,9 +3,9 @@
     <span class="title">ReMovie</span>
   </div>
   <div *ngIf="isLoggedIn" class="header-nav">
-    <a [routerLink]="['/home']" class="active nav-link" aria-current="page"><span class="nav-text">Home</span></a>
-    <a [routerLink]="['/all']" class="nav-link"><span class="nav-text">All movies</span></a>
-    <a [routerLink]="['/search']" class="nav-link"><span class="nav-text">Search movie</span></a>
+    <a [routerLink]="['/home']" [routerLinkActive]="['active']" class="nav-link" aria-current="page"><span class="nav-text">Home</span></a>
+    <a [routerLink]="['/all']" [routerLinkActive]="['active']" class="nav-link"><span class="nav-text">All movies</span></a>
+    <a [routerLink]="['/search']" [routerLinkActive]="['active']" class="nav-link"><span class="nav-text">Search movie</span></a>
   </div>
   <div *ngIf="isLoggedIn" class="header-actions">
     <clr-dropdown>
