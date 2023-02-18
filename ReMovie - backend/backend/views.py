@@ -31,7 +31,7 @@ class GenreViewSet(ModelViewSet):
 
 class MoviesViewSet(ModelViewSet):
     serializer_class = MovieSerializer
-    queryset = Movie.objects.all().order_by('movie_release_date')
+    queryset = Movie.objects.all().order_by('-movie_release_date',)
     permission_classes = [IsAuthenticated]
 
     @action(detail=False, methods=['get'], url_path='get_movie_by_title/(?P<movie_title>[ \w]+)')
@@ -58,8 +58,8 @@ class MoviesViewSet(ModelViewSet):
     def give_recommendations(self, m_id, df_all_movies, X):
         cos_sim_data = pd.DataFrame(cosine_similarity(X))
         index_recomm = cos_sim_data.loc[m_id].sort_values(ascending=False).index.tolist()[1:6]
-        movies_recomm = df_all_movies['movie_title'].loc[index_recomm].values
-        result = {'Movies': movies_recomm, 'Index': index_recomm}
+        movies_recomm = df_all_movies['movie_id'].loc[index_recomm].values
+        result = {'Movies_id': movies_recomm, 'Index': index_recomm}
         return result
 
     @action(detail=False, methods=['get'], url_path='get_related_movies/(?P<movie_id>\d+)')
@@ -89,8 +89,8 @@ class MoviesViewSet(ModelViewSet):
 
         recommendations_res = self.give_recommendations(movie_index, df_all_movies, X)
         movies_to_return = []
-        for r in recommendations_res['Movies']:
-            movie = get_object_or_404(Movie, movie_title=r)
+        for r in recommendations_res['Movies_id']:
+            movie = get_object_or_404(Movie, movie_id=r)
             movies_to_return.append(MovieSerializer(movie).data)
         return Response(movies_to_return, status=status.HTTP_200_OK)
 
