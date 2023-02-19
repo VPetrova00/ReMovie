@@ -14,8 +14,8 @@ import {RatingInterface} from "../../interfaces/rating-interface";
 })
 export class ProfileComponent implements OnInit {
   userId!: number;
-  history!: ProfileInterface;
-  favs!: ProfileInterface;
+  history!: ProfileInterface[];
+  favs!: ProfileInterface[];
   rated!: ProfileRatingInterface[];
   historyMovies: MovieInterface[] = [];
   favsMovies: MovieInterface[] = [];
@@ -55,23 +55,29 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  addToHistoryMovies(history: ProfileInterface) {
-    for (let movieId of history.movies) {
-      let movie!: MovieInterface;
-      this.movieService.getMovieById(movieId).subscribe((data) => {
-        movie = data;
-        this.historyMovies.push(movie);
-      });
+  addToHistoryMovies(history: ProfileInterface[]) {
+    for (let i = 0; i < history.length; i++) {
+      let current = history[i];
+      for (let movieId of current.movies) {
+        let movie!: MovieInterface;
+        this.movieService.getMovieById(movieId).subscribe((data) => {
+          movie = data;
+          this.historyMovies.push(movie);
+        });
+      }
     }
   }
 
-  addToFavsMovies(favs: ProfileInterface) {
-    for (let movieId of favs.movies) {
-      let movie!: MovieInterface;
-      this.movieService.getMovieById(movieId).subscribe((data) => {
-        movie = data;
-        this.favsMovies.push(movie);
-      });
+  addToFavsMovies(favs: ProfileInterface[]) {
+    for (let i = 0; i < favs.length; i++) {
+      let current = favs[i];
+      for (let movieId of current.movies) {
+        let movie!: MovieInterface;
+        this.movieService.getMovieById(movieId).subscribe((data) => {
+          movie = data;
+          this.favsMovies.push(movie);
+        });
+      }
     }
   }
 

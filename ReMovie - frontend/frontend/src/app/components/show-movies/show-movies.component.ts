@@ -4,6 +4,8 @@ import {MovieService} from "../../services/movie.service";
 import {RatingInterface} from "../../interfaces/rating-interface";
 import {RelatedService} from "../../services/related.service";
 import {Subscription} from "rxjs";
+import {UserService} from "../../services/user.service";
+import {ProfileService} from "../../services/profile.service";
 
 @Component({
   selector: 'app-show-movies',
@@ -15,11 +17,13 @@ export class ShowMoviesComponent implements OnInit {
   movie: MovieInterface | null = null;
   @Input() isFromRatingTable: boolean = false;
   @Input() ratings: RatingInterface[] = [];
-  isModalOpen: boolean = false;
+  isRelatedMoviesModalOpen: boolean = false;
+  isRateMovieModalOpen: boolean = false;
   results: MovieInterface[] = [];
   sub!: Subscription;
+  ratingOptions: string = '';
 
-  constructor(private relatedService: RelatedService) {
+  constructor(private relatedService: RelatedService, private userService: UserService, private movieService: MovieService, private profileService: ProfileService) {
 
   }
 
@@ -31,7 +35,7 @@ export class ShowMoviesComponent implements OnInit {
   }
 
   showRelatedMovies(movie_id: number | undefined) {
-    this.isModalOpen = true;
+    this.isRelatedMoviesModalOpen = true;
 
     this.sub = this.relatedService.getRelated(movie_id).subscribe((data) => {
       this.results = data;
@@ -39,8 +43,36 @@ export class ShowMoviesComponent implements OnInit {
   }
 
   close() {
-    this.isModalOpen = false;
+    this.isRelatedMoviesModalOpen = false;
     this.sub.unsubscribe();
     this.results = []
+  }
+
+  closeRateModal() {
+    this.isRateMovieModalOpen = false;
+  }
+
+  showRateModal(movieId: number) {
+    this.isRateMovieModalOpen = true;
+  }
+
+  rate(movieId: number | undefined, rating: string) {
+    let username = sessionStorage.getItem('username')
+    if (username != null){
+      this.userService.getUserByUsername(username).subscribe((user) => {
+        this.profileService.rateMovie(user.id, movieId, Number(rating)).subscribe();
+      });
+    }
+
+    this.isRateMovieModalOpen = false;
+  }
+
+  addToFavs(movieId: number) {
+    let username = sessionStorage.getItem('username')
+    if (username != null){
+      this.userService.getUserByUsername(username).subscribe((user) => {
+        this.profileService.addToFavourites(user.id, movieId).subscribe();
+      });
+    }
   }
 }

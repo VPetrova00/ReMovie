@@ -19,8 +19,8 @@
           [ratings]="ratings"
         ></app-show-movie>
         <div class="button-container">
-          <button class="btn btn-primary">Add to favourites</button>
-          <button class="btn btn-primary">Rate</button>
+          <button class="btn btn-primary" (click)="addToFavs(detail.movie_id)">Add to favourites</button>
+          <button class="btn btn-primary" (click)="showRateModal(detail.movie_id)">Rate</button>
           <button class="btn btn-outline" (click)="showRelatedMovies(movie?.movie_id)">Show related movies</button>
         </div>
       </clr-dg-detail-body>
@@ -38,7 +38,7 @@
   </clr-dg-footer>
 </clr-datagrid>
 
-<clr-modal [(clrModalOpen)]="isModalOpen" [clrModalSize]="'lg'" [clrModalClosable]="false"
+<clr-modal [(clrModalOpen)]="isRelatedMoviesModalOpen" [clrModalSize]="'lg'" [clrModalClosable]="false"
            [clrModalStaticBackdrop]="true">
   <h3 class="modal-title">Related movies ({{movie?.movie_title}}): </h3>
   <div class="modal-body">
@@ -58,5 +58,31 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-primary" (click)="close()">Ok</button>
+  </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="isRateMovieModalOpen" [clrModalSize]="'lg'" [clrModalClosable]="false"
+           [clrModalStaticBackdrop]="true">
+  <h3 class="modal-title">Rate ({{movie?.movie_title}}): </h3>
+  <div class="modal-body">
+        <clr-select-container>
+          <label>Rating: </label>
+          <select clrSelect name="options" [(ngModel)]="ratingOptions">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select>
+        </clr-select-container>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="closeRateModal()">Close</button>
+    <button type="button" class="btn btn-primary" (click)="rate(movie?.movie_id, ratingOptions)">Rate</button>
   </div>
 </clr-modal>

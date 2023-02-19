@@ -19,8 +19,8 @@ export class ProfileService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${sessionStorage.getItem('access-token')}`
-    })
-    return this.http.get<ProfileInterface>(getHistoryByUserIdUrl, { headers: headers });
+    });
+    return this.http.get<ProfileInterface[]>(getHistoryByUserIdUrl, { headers: headers });
   }
 
   getFavMovies(userId: number) {
@@ -28,8 +28,8 @@ export class ProfileService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${sessionStorage.getItem('access-token')}`
-    })
-    return this.http.get<ProfileInterface>(getFavsByUserIdUrl, { headers: headers });
+    });
+    return this.http.get<ProfileInterface[]>(getFavsByUserIdUrl, { headers: headers });
   }
 
   getRatedMovies(userId: number) {
@@ -37,7 +37,32 @@ export class ProfileService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${sessionStorage.getItem('access-token')}`
-    })
+    });
     return this.http.get<ProfileRatingInterface[]>(getRatedByUserIdUrl, { headers: headers });
+  }
+
+  rateMovie(userId: number, movieId: number | undefined, rating: number) {
+    let url = this.getRatedMoviesUrl + '/';
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${sessionStorage.getItem('access-token')}`
+    });
+    return this.http.post<ProfileRatingInterface>(url, {
+      "user": userId,
+      "movies": [movieId],
+      "rating": rating
+    }, { headers: headers });
+  }
+
+  addToFavourites(userId: number, movieId: number) {
+    let url = this.getFavMoviesUrl + '/';
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${sessionStorage.getItem('access-token')}`
+    });
+    return this.http.post<ProfileInterface>(url, {
+      "user": userId,
+      "movies": [movieId]
+    }, { headers: headers });
   }
 }
