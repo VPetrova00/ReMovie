@@ -102,8 +102,11 @@ class SearchHistoryViewSet(ModelViewSet):
 
     @action(detail=False, methods=['get'], url_path='get_history_by_user_id/(?P<user_id>\d+)')
     def get_history_by_user_id(self, request, user_id):
-        history_entries = get_object_or_404(SearchHistory, user_id=user_id)
-        return Response(SearchHistorySerializer(history_entries).data, status=status.HTTP_200_OK)
+        history_entries = get_list_or_404(SearchHistory, user_id=user_id)
+        arr = []
+        for entry in history_entries:
+            arr.append(SearchHistorySerializer(entry).data)
+        return Response(arr, status=status.HTTP_200_OK)
 
 
 class FavouriteMoviesViewSet(ModelViewSet):
@@ -113,8 +116,11 @@ class FavouriteMoviesViewSet(ModelViewSet):
 
     @action(detail=False, methods=['get'], url_path='get_favs_by_user_id/(?P<user_id>\d+)')
     def get_favs_by_user_id(self, request, user_id):
-        fav_entries = get_object_or_404(FavouriteMovies, user_id=user_id)
-        return Response(FavouriteMoviesSerializer(fav_entries).data, status=status.HTTP_200_OK)
+        fav_entries = get_list_or_404(FavouriteMovies, user_id=user_id)
+        arr = []
+        for entry in fav_entries:
+            arr.append(FavouriteMoviesSerializer(entry).data)
+        return Response(arr, status=status.HTTP_200_OK)
 
 
 class RatedMoviesViewSet(ModelViewSet):
